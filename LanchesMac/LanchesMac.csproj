@@ -5,9 +5,4 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Remove="Views\Home\Privacy.cshtml" />
-  </ItemGroup>
-
 </Project>
