@@ -24,10 +24,19 @@ namespace LanchesMac
             services.AddTransient<ILancheRepository, LancheRepository>();
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
 
+            // Definir o serviço para poder usar a classe HttpContextAcessor
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddControllersWithViews();
 
             // Serviço de Autorização necessário para UseAuthorization
             services.AddAuthorization();
+
+            // -- Registrando os midlewares --
+            // habilitar o cache
+            services.AddMemoryCache();
+            // habilitar o Session
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configur
@@ -46,6 +55,7 @@ namespace LanchesMac
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseSession();  // É necessário ativar o session
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
