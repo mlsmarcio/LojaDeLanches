@@ -6,15 +6,12 @@ namespace LanchesMac.Models
     public class CarrinhoCompra
     {
         private readonly AppDbContext _context;
-
+        public string CarrinhoCompraId { get; set; }
+        public List<CarrinhoCompraItem> CarrinhoCompraItems { get; set; }
         public CarrinhoCompra(AppDbContext context)
         {
             _context = context;
         }
-
-        public string CarrinhoCompraId { get; set; }
-
-        public List<CarrinhoCompraItem> CarrinhoCompraItems { get; set; }
 
         public static CarrinhoCompra GetCarrinho(IServiceProvider services)
         {
@@ -112,5 +109,5 @@ namespace LanchesMac.Models
             return total;
         }
 
-    } 
+    }
 }

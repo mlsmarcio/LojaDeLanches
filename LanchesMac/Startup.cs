@@ -1,4 +1,5 @@
 ﻿using LanchesMac.Context;
+using LanchesMac.Models;
 using LanchesMac.Repositories;
 using LanchesMac.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,10 @@ namespace LanchesMac
 
             // Definir o serviço para poder usar a classe HttpContextAcessor
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            // Obtendo uma instancia da classe Carrinho de compra com um contexto, id (guid) e a lista de itens
+            // AddScoped - instância do carrinho a cada request
+            services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp));
 
             services.AddControllersWithViews();
 
