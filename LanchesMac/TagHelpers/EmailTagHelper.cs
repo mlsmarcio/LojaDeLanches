@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+using System.Text.Encodings.Web;
 
 namespace LanchesMac.TagHelpers
 {
@@ -11,7 +12,9 @@ namespace LanchesMac.TagHelpers
         {
             output.TagName = "a";
             output.Attributes.SetAttribute("href", "mailto:" + Endereco);
+            output.Attributes.SetAttribute("title", "Clique para enviar um e-mail ");
             output.Content.SetContent(Conteudo);
+            
         }
     }
 }
