@@ -64,6 +64,33 @@ namespace LanchesMac
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+                //// TESTE DE ROTEAMENTO
+                //endpoints.MapControllerRoute(
+                //    name: "teste",
+                //    pattern: "testeme",
+                //    defaults: new { controller = "teste", action = "Index" });
+
+                //endpoints.MapControllerRoute(
+                //    name: "admin",
+                //    pattern: "admin/{action=Index}/{id?}",
+                //    defaults: new { controller = "admin" });
+
+                ////TESTE DE ORDEM DE CONFIGURAÇÃO
+                //endpoints.MapControllerRoute(
+                //    name: "admin",
+                //    pattern: "admin",
+                //    defaults: new { controller = "Admin", Action = "Index" });
+
+                //endpoints.MapControllerRoute(
+                //    name: "home",
+                //    pattern: "{home}",
+                //    defaults: new { controller = "Home", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "categoriaFiltro",
+                    pattern: "Lanche/{action}/{categoria?}",
+                    defaults: new { Controller = "Lanche", Action = "List" });
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

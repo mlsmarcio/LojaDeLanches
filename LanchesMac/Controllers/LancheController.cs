@@ -2,6 +2,7 @@
 using LanchesMac.Repositories.Interfaces;
 using LanchesMac.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace LanchesMac.Controllers
 {
@@ -17,26 +18,21 @@ namespace LanchesMac.Controllers
         public IActionResult List(string categoria)
         {
             IEnumerable<Lanche> lanches;
-            string categoriaAtual = string.Empty;
+            string categoriaAtual = CultureInfo.CurrentCulture.TextInfo
+                .ToTitleCase((categoria ?? "Todos os lanches").ToLower());
 
-            if (string.IsNullOrEmpty(categoria))
+            if (string.Equals("Normal", categoria, StringComparison.OrdinalIgnoreCase))
             {
-                lanches = _lancheRepository.Lanches.OrderBy(l => l.LancheId);
-                categoriaAtual = "Todos os lanches";
+                lanches = _lancheRepository.Lanches.Where(l => l.Categoria.CategoriaNome.Equals("Normal")).OrderBy(l => l.Nome);
+            }
+            else if (string.Equals("Natural", categoria, StringComparison.OrdinalIgnoreCase))
+            {
+                lanches = _lancheRepository.Lanches.Where(l => l.Categoria.CategoriaNome.Equals("Natural")).OrderBy(l => l.Nome);
             }
             else
             {
-                if (string.Equals("Normal", categoria, StringComparison.OrdinalIgnoreCase))
-                {
-                    lanches = _lancheRepository.Lanches.Where(l => l.Categoria.CategoriaNome.Equals("Normal")).OrderBy(l => l.Nome);
-                }
-                else
-                {
-                    lanches = _lancheRepository.Lanches
-                        .Where(l => l.Categoria.CategoriaNome.Equals("Natural"))
-                        .OrderBy(l => l.Nome);
-                }
-                categoriaAtual = categoria;
+                lanches = _lancheRepository.Lanches.OrderBy(l => l.LancheId);
+                categoriaAtual = "Todos os lanches";
             }
 
             var lanchesListViewModel = new LancheListViewModel
@@ -44,22 +40,6 @@ namespace LanchesMac.Controllers
                 Lanches = lanches,
                 CategoriaAtual = categoriaAtual
             };
-
-            // Versão 01
-            //ViewData["Titulo"] = "Todos os Lanches";
-            //ViewData["Data"] = DateTime.Now;
-
-            //var lanches = _lancheRepository.Lanches;
-            //var totalLanches = lanches.Count();
-
-            //ViewBag.Total = "Total de lanches : ";
-            //ViewBag.TotalLanches = totalLanches;
-            //return View(lanches);
-
-            // Versão 02
-            //var lanchesListViewModel = new LancheListViewModel();
-            //lanchesListViewModel.Lanches = _lancheRepository.Lanches;
-            //lanchesListViewModel.CategoriaAtual = "Categoria Atual";
 
             return View(lanchesListViewModel);
         }
