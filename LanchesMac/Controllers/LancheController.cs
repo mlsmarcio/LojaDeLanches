@@ -18,21 +18,20 @@ namespace LanchesMac.Controllers
         public IActionResult List(string categoria)
         {
             IEnumerable<Lanche> lanches;
-            string categoriaAtual = CultureInfo.CurrentCulture.TextInfo
-                .ToTitleCase((categoria ?? "Todos os lanches").ToLower());
+            string categoriaAtual = string.Empty;
 
-            if (string.Equals("Normal", categoria, StringComparison.OrdinalIgnoreCase))
+            if (string.IsNullOrEmpty(categoria))
             {
-                lanches = _lancheRepository.Lanches.Where(l => l.Categoria.CategoriaNome.Equals("Normal")).OrderBy(l => l.Nome);
-            }
-            else if (string.Equals("Natural", categoria, StringComparison.OrdinalIgnoreCase))
-            {
-                lanches = _lancheRepository.Lanches.Where(l => l.Categoria.CategoriaNome.Equals("Natural")).OrderBy(l => l.Nome);
+                lanches = _lancheRepository.Lanches.OrderBy(l => l.Nome).ThenBy(l => l.Categoria.CategoriaNome); // Ordena por lanche e nome da categoria
+                categoriaAtual = "Todos os lanches";
             }
             else
             {
-                lanches = _lancheRepository.Lanches.OrderBy(l => l.LancheId);
-                categoriaAtual = "Todos os lanches";
+                lanches = _lancheRepository.Lanches
+                    .Where(l => l.Categoria.CategoriaNome.Equals(categoria))
+                    .OrderBy(c => c.Nome);
+
+                categoriaAtual = categoria;
             }
 
             var lanchesListViewModel = new LancheListViewModel
