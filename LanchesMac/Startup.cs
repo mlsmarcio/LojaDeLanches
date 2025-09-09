@@ -24,6 +24,7 @@ namespace LanchesMac
 
             services.AddTransient<ILancheRepository, LancheRepository>();
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+            services.AddTransient<IPedidoRepository, PedidoRepository>();
 
             // Definir o serviço para poder usar a classe HttpContextAcessor
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
