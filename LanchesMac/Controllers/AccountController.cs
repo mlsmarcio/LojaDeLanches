@@ -31,6 +31,9 @@ namespace LanchesMac.Controllers
 
             var user = await _userManager.FindByNameAsync(loginVM.UserName);
 
+            //// EXCLUI AQUI - PARA TESTES
+            //await ExcluiUsuarioTesteAsync(user.Id);
+
             if (user != null)
             {
                 var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
@@ -71,6 +74,26 @@ namespace LanchesMac.Controllers
                 }
             }
             return View(registroVM);
+        }
+
+        // PARA TESTE - EXCLUSÃO DE USUÁRIO DO BANCO DE DADOS
+        private async Task ExcluiUsuarioTesteAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user != null)
+            {
+                var result = await _userManager.DeleteAsync(user);
+
+                if (result.Succeeded)
+                {
+                    Console.WriteLine("Usuário excluído com segurança!");
+                }
+                else
+                {
+                    Console.WriteLine("Falha: " + string.Join(", ", result.Errors.Select(e => e.Description)));
+                }
+            }
         }
 
     }
