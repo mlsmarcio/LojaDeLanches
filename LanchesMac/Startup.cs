@@ -28,6 +28,12 @@ namespace LanchesMac
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // tempo de expiração
+            //    options.SlidingExpiration = true;
+            //});
+
             // CÓDIGO PARA CONFIGURAÇÃO IDENTITY DO ASP.NET (Sobrescreve o padrão do Identity)
             // PODE SER ENCONTRADO EM: https://github.com/aspnet/AspNetCore
             //=============================================================

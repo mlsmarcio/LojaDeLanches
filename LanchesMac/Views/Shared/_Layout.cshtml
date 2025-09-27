@@ -12,7 +12,8 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LanchesMac
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    LanchesMac
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -29,6 +30,8 @@
                             <input type="text" class="form-control" placeholder="Procurar produto" name="searchString" value="@ViewData["serarchString"]" />
                         </div>
                     </form>
+
+                    @await Html.PartialAsync("_LoginPartial");
                 </div>
             </div>
         </nav>
