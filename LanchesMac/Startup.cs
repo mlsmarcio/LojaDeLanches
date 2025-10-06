@@ -117,6 +117,11 @@ namespace LanchesMac
                 //    defaults: new { controller = "Home", action = "Index" });
 
                 endpoints.MapControllerRoute(
+                    name: "areas",
+                    pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}"
+                );
+
+                endpoints.MapControllerRoute(
                     name: "categoriaFiltro",
                     pattern: "Lanche/{action}/{categoria?}",
                     defaults: new { Controller = "Lanche", Action = "List" });
