@@ -3,7 +3,9 @@ using LanchesMac.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using ReflectionIT.Mvc.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +25,27 @@ namespace LanchesMac.Areas.Admin.Controllers
         }
 
         // GET: Admin/AdminPedidos
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //      return View(await _context.Pedidos.ToListAsync());
+        //}
+        public async Task<IActionResult> Index(string filter, int pageindex = 1, string sort = "Nome")
         {
-              return View(await _context.Pedidos.ToListAsync());
+            // montando a consulta com o asnotracking (melhor performance)
+            var resultado = _context.Pedidos.AsNoTracking().AsQueryable();
+
+            // implementando o filtro na consulta (campo nome de pedidos)
+            if (!string.IsNullOrWhiteSpace(filter)) {
+                resultado = resultado.Where(p => p.Nome.Contains(filter));
+            }
+
+            // definindo o objeto de paginação (model - dados paginados)
+            var model = await PagingList.CreateAsync(resultado, 2, pageindex, sort, "Nome");
+
+            // incluindo uma rota para o filtro que vai ser utilizado
+            model.RouteValue = new RouteValueDictionary { { "filter", filter } };
+
+            return View(model);
         }
 
         // GET: Admin/AdminPedidos/Details/5

@@ -1,5 +1,12 @@
 ﻿@using LanchesMac
 @using LanchesMac.Models
 @using LanchesMac.ViewModels
+
+@* namespace para paginação *@
+@using ReflectionIT.Mvc.Paging
+
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper LanchesMac.TagHelpers.*, LanchesMac
+
+@* incluindo a taghelper para paginação *@
+@addTagHelper *, ReflectionIT.Mvc.Paging

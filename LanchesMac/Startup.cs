@@ -5,6 +5,7 @@ using LanchesMac.Repositories.Interfaces;
 using LanchesMac.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ReflectionIT.Mvc.Paging;
 
 namespace LanchesMac
 {
@@ -74,6 +75,13 @@ namespace LanchesMac
             services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp));
 
             services.AddControllersWithViews();
+
+            // 1 Etapa Configuração para paginação
+            services.AddPaging(options =>
+            {
+                options.ViewName = "Bootstrap4";
+                options.PageParameterName = "pageindex";
+            });
 
             // Serviço de Autorização necessário para UseAuthorization
             services.AddAuthorization();

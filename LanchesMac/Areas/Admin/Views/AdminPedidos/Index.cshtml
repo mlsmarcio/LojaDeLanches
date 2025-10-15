@@ -1,13 +1,28 @@
-﻿@model IEnumerable<LanchesMac.Models.Pedido>
+﻿@* @model IEnumerable<LanchesMac.Models.Pedido> *@
+@model ReflectionIT.Mvc.Paging.PagingList<LanchesMac.Models.Pedido>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Pedido</h1>
+<h3>Pedidos</h3>
+
+
+<form method="get" class="form-inline">
+    <input name="filter" class="form-control" placeholder="filtro" value="@Model.RouteValue["Filter"]" />
+    <button type="submit" class="btn btn-info">
+        <span class="glyphicon glyphicon-searsh" aria-hidden="true"></span> Procurar
+    </button>
+</form>
+
+Total de Pedidos : @Model.TotalRecordCount
+<nav aria-label="Pedidos">
+    @* taghelper passando o model para fazer a paginação (número com o paginador) *@
+    <vc:pager paging-list="@Model"></vc:pager>
+</nav>
 
 <p>
-    <a asp-action="Create">Criar novo pedido</a>
+    <a asp-action="Create">Criar novo Pedido</a>
 </p>
 <table class="table">
     <thead>
