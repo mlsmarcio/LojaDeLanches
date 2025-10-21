@@ -46,6 +46,7 @@ namespace LanchesMac.Models
         public bool EmEstoque { get; set; }
 
         //PROPRIEDADES DE NAVEGAÇÃO
+        [Display(Name = "Categorias")]
         public int CategoriaId { get; set; }
         public virtual Categoria Categoria { get; set; }
     }

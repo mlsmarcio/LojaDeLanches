@@ -40,7 +40,7 @@ namespace LanchesMac.Areas.Admin.Controllers
             }
 
             // definindo o objeto de paginação (model - dados paginados)
-            var model = await PagingList.CreateAsync(resultado, 2, pageindex, sort, "Nome");
+            var model = await PagingList.CreateAsync(resultado, 5, pageindex, sort, "Nome");
 
             // incluindo uma rota para o filtro que vai ser utilizado
             model.RouteValue = new RouteValueDictionary { { "filter", filter } };
