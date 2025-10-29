@@ -1,4 +1,5 @@
-﻿using LanchesMac.Context;
+﻿using LanchesMac.Areas.Admin.Services;
+using LanchesMac.Context;
 using LanchesMac.Models;
 using LanchesMac.Repositories;
 using LanchesMac.Repositories.Interfaces;
@@ -54,9 +55,11 @@ namespace LanchesMac
             services.AddTransient<ILancheRepository, LancheRepository>();
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
             services.AddTransient<IPedidoRepository, PedidoRepository>();
+            services.AddScoped<RelatorioVendasService>();
 
             // Registro de usuários e perfis como um serviço
             services.AddScoped<ISeedUserRoleInitial, SeeduserRoleInitial>();
+
             // Registrando a política de autorização baseada nos perfis (roles) - Informando a necessidade do perfil Admin
             services.AddAuthorization(options =>
             {

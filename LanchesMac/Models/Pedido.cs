@@ -1,44 +1,46 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Intrinsics.X86;
 
 namespace LanchesMac.Models
 {
     public class Pedido
     {
         public int PedidoId { get; set; }
-        
-        [Required(ErrorMessage ="Informe o nome")]
+
+        [Required(ErrorMessage = "Informe o nome")]
         [StringLength(50)]
         public string Nome { get; set; }
-        
-        [Required(ErrorMessage ="Informe o sobrenome")]
+
+        [Required(ErrorMessage = "Informe o sobrenome")]
         [StringLength(50)]
         public string Sobrenome { get; set; }
 
-        [Required(ErrorMessage ="Informe o endereço")]
+        [Required(ErrorMessage = "Informe o endereço")]
         [StringLength(100)]
         public string Endereco1 { get; set; }
 
         [StringLength(100)]
         [Display(Name = "Complemento")]
-        public string Endereco2{ get; set; }
+        public string Endereco2 { get; set; }
 
-        [Required(ErrorMessage ="Informe o seu CEP")]
+        [Required(ErrorMessage = "Informe o seu CEP")]
         [Display(Name = "CEP")]
-        [StringLength(10, MinimumLength =8)]
-        public string Cep{ get; set; }
+        [StringLength(10, MinimumLength = 8)]
+        public string Cep { get; set; }
 
         [StringLength(10)]
-        public string Estado{ get; set; }
+        public string Estado { get; set; }
 
         [StringLength(50)]
-        public string Cidade{ get; set; }
+        public string Cidade { get; set; }
 
-        [Required(ErrorMessage ="Informe o seu telefone")]
+        [Required(ErrorMessage = "Informe o seu telefone")]
         [StringLength(25)]
         [DataType(DataType.PhoneNumber)]
-        public string Telefone{ get; set; }
+        public string Telefone { get; set; }
 
         [Required(ErrorMessage = "Informe o email.")]
         [StringLength(50)]
@@ -66,7 +68,10 @@ namespace LanchesMac.Models
         [DisplayFormat(DataFormatString = "{0: dd/MM/yyyy hh:mm}", ApplyFormatInEditMode = true)]
         public DateTime? PedidoEntregueEm { get; set; }
 
-        // PROPRIEDADE DE NAVEGAÇÃO
-        public List<PedidoDetalhe> PedidoItens { get; set; }
+        // PROPRIEDADE DE NAVEGAÇÃO - com o virtual, o EF ganha um poder extra: carregamento dinâmico (lazy loading)
+        // Quando você busca um Pedido do banco, o EF não traz automaticamente todos os PedidoItens.
+        // Mas, ao acessar pedido.PedidoItens, o EF percebe o acesso e vai buscar os dados no banco naquele momento.
+        // 👉 Esse comportamento se chama lazy loading (carregamento preguiçoso).
+        public virtual List<PedidoDetalhe> PedidoItens { get; set; }
     }
 }

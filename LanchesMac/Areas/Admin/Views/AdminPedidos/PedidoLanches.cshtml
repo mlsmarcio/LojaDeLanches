@@ -11,6 +11,9 @@
 <h3>Cliente  :  @Html.DisplayFor(Model => Model.Pedido.Nome) </h3>
 <h3>Data     :  @Html.DisplayFor(Model => Model.Pedido.PedidoEnviado) </h3>
 <h3>Entrega  :  @Html.DisplayFor(Model => Model.Pedido.PedidoEntregueEm) </h3>
+@* OUTRA FORMA DE MOSTRAR 
+<h3> Data     :  @Model.Pedido.PedidoEnviado.ToString("dd/MM/yyyy HH:mm") </h3>
+<h3>Entrega  :  @Model.Pedido.PedidoEntregueEm?.ToString("dd/MM/yyyy HH:mm") </h3> *@
 
 <table class="table">
     @foreach (var item in Model.Pedido.PedidoItens)
