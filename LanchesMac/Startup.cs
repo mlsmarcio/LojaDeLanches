@@ -31,6 +31,13 @@ namespace LanchesMac
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.ConfigureApplicationCookie(options => options.AccessDeniedPath = "/Home/AccessDenied");
+            services.Configure<ConfigurationImagens>(Configuration.GetSection("ConfigurationPastaImagens"));
+
+            // Definir o serviço para poder usar a classe HttpContextAcessor
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
             //services.ConfigureApplicationCookie(options =>
             //{
             //    options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // tempo de expiração
@@ -70,8 +77,6 @@ namespace LanchesMac
                     });
             });
 
-            // Definir o serviço para poder usar a classe HttpContextAcessor
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Obtendo uma instancia da classe Carrinho de compra com um contexto, id (guid) e a lista de itens
             // AddScoped - instância do carrinho a cada request
