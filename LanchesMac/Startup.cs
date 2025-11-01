@@ -31,7 +31,7 @@ namespace LanchesMac
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.ConfigureApplicationCookie(options => options.AccessDeniedPath = "/Home/AccessDenied");
+            services.ConfigureApplicationCookie(options => options.AccessDeniedPath = "/Account/AccessDenied");
             services.Configure<ConfigurationImagens>(Configuration.GetSection("ConfigurationPastaImagens"));
 
             // Definir o serviço para poder usar a classe HttpContextAcessor
@@ -115,7 +115,11 @@ namespace LanchesMac
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+
+            // PERMITE ACESSO A ARQUIVOS STATICOS DA APLICAÇÃO
+            // ESTÁ DEFINIDO ANTES DA AUTHENTICAÇÃO (OS ARQUIVOS FICARÃO COM ACESSO PÚBLICO)
+            app.UseStaticFiles(); 
+
             app.UseRouting();
 
             //Usando a instancia d0 serviço de perfís e usuários
