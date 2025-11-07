@@ -63,6 +63,7 @@ namespace LanchesMac
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
             services.AddTransient<IPedidoRepository, PedidoRepository>();
             services.AddScoped<RelatorioVendasService>();
+            services.AddScoped<GraficoVendasService>();
 
             // Registro de usuários e perfis como um serviço
             services.AddScoped<ISeedUserRoleInitial, SeeduserRoleInitial>();

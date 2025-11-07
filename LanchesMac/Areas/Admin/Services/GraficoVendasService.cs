@@ -14,7 +14,7 @@ namespace LanchesMac.Areas.Admin.Services
 
         public List<LancheGrafico> GetVendasLanches(int dias = 360)
         {
-            var data = DateTime.Now.AddDays(-360);
+            var data = DateTime.Now.AddDays(dias);
 
             // Obtendo os dados em um tipo anônimo
             var lanches = (from pd in context.PedidoDetalhes
