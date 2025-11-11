@@ -14,13 +14,13 @@ namespace LanchesMac.Areas.Admin.Services
 
         public List<LancheGrafico> GetVendasLanches(int dias = 360)
         {
-            var data = DateTime.Now.AddDays(dias);
+            var data = DateTime.Now.AddDays(- dias);
 
             // Obtendo os dados em um tipo anônimo
             var lanches = (from pd in context.PedidoDetalhes
                            join l in context.Lanches on pd.LancheId equals l.LancheId
                            where pd.Pedido.PedidoEnviado >= data
-                           group pd by new { pd.LancheId, l.Nome, pd.Quantidade }
+                           group pd by new { pd.LancheId, l.Nome }
                            into g //dados agrupados
                            select new
                            {

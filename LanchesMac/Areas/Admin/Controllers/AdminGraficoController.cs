@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LanchesMac.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class AdminGraficoController : Controller
     {
         public readonly GraficoVendasService _graficoVendas;
@@ -20,19 +21,19 @@ namespace LanchesMac.Areas.Admin.Controllers
 
         // VENDAS DOS ÚLTIMOS 360 DIAS
         [HttpGet]
-        public IActionResult Index(int dias)
+        public IActionResult Index()
         {
             return View();
         }
         
         [HttpGet]
-        public IActionResult VendasMensais(int dias)
+        public IActionResult VendasMensal()
         {
             return View();
         }
 
         [HttpGet]
-        public IActionResult VendasSemanal(int dias)
+        public IActionResult VendasSemanal()
         {
             return View();
         }

@@ -1,0 +1,85 @@
+﻿<title>
+    @ViewData["Title"] - Gráfico de Vendas Semanais
+</title>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<div id="chart_div" style="width: 900px; height: 500px;"></div>
+
+<script type="text/javascript">
+
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {packages: ['corechart', 'bar'] });
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(CarregaDados);
+
+    function CarregaDados() {
+        $.ajax({
+            // Obtém os dados do controlador AdminGrafico método VendasMensal
+            url: '@Url.Action("VendasLanches", "AdminGrafico")',
+            data: {dias: 7},
+            dataType: "json",
+            type: "GET",
+            error: function(xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                toastr.error(err.message);
+            },
+            success: function(data) {
+                GraficoVendasLanches(data);
+                return false;
+            }
+        });
+    }
+
+    function GraficoVendasLanches(data) {
+        // Definindo um array de dados
+        var dataArray = [
+            ['Lanche', 'Quantidade', 'Valores(R$)']
+        ];
+
+        // percorre os dados incluindo cada item no array
+        $.each(data, function (i, item) {
+            dataArray.push([item.lancheNome, item.lanchesQuantidade, item.lanchesValorTotal]);
+        });
+
+        // Caso não haja registros, exibe uma mensagem
+        if (dataArray.length === 1) {
+            document.getElementById('chart_div').innerHTML = "<h4 class='text-secondary text-center mt-5'>Nenhum dado disponível para o período</h4>";
+            return;
+        }
+
+        // Converte o array em uma tabela
+        var data = google.visualization.arrayToDataTable(dataArray);
+
+        // Define as opções do gráfico
+        var options = {
+            title: 'Lanches - Vendas : últimos 7 dias',
+
+            animation: {
+                duration: 3000,
+                easing: 'out',
+                startup: true
+            },
+
+            curveType: 'function',
+            legend: { position : 'bottom'},
+
+            chartArea: {
+                width: '70%'
+            },
+            colors: ['#5202b5', '#d2a828'],     // Define duas cores (quantidade e valor total)
+            hAxis: {                            // Eixo X
+                title: 'Lanches',
+                minValue: 0
+            },
+            vAxis: {                            // Eixo Y
+                title: 'Valor Total (em Reais)'
+            }
+        };
+
+        // Define a visualização - Tipo
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div')); // Especifica a div que carrega o gráfico
+        // Desenhar passando o dados e as options
+        chart.draw(data, options);
+    }
+</script>
