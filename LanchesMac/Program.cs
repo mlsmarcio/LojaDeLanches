@@ -1,3 +1,4 @@
+using FastReport.Data;
 using LanchesMac.Areas.Admin.Services;
 using LanchesMac.Context;
 using LanchesMac.Models;
@@ -13,6 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(connection));
+
+FastReport.Utils.RegisteredObjects.AddConnection(typeof(MsSqlDataConnection));
 
 // Incluindo o serviço do identity 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
@@ -52,6 +55,7 @@ builder.Services.AddTransient<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddTransient<IPedidoRepository, PedidoRepository>();
 builder.Services.AddScoped<RelatorioVendasService>();
 builder.Services.AddScoped<GraficoVendasService>();
+builder.Services.AddScoped<RelatorioLanchesService>();
 
 // Registro de usuários e perfis como um serviço
 builder.Services.AddScoped<ISeedUserRoleInitial, SeeduserRoleInitial>();
@@ -106,6 +110,7 @@ app.UseHttpsRedirection();
 // PERMITE ACESSO A ARQUIVOS STATICOS DA APLICAÇÃO
 // ESTÁ DEFINIDO ANTES DA AUTHENTICAÇÃO (OS ARQUIVOS FICARÃO COM ACESSO PÚBLICO)
 app.UseStaticFiles();
+app.UseFastReport();
 app.UseRouting();
 
 CriarPerfisUsuarios(app);
@@ -118,6 +123,7 @@ CriarPerfisUsuarios(app);
 app.UseSession();  // É necessário ativar o session
 
 app.UseAuthentication();
+//Ativar o midleware do FastReport 
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
